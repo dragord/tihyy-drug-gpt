@@ -13,15 +13,18 @@ export default async function handler(req, res) {
     },
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
-      messages: [{ role: "system", content: "Ти лагідний емоційний підтримуючий помічник на ім’я Тихий Друг." }, { role: "user", content: message }],
+      messages: [
+        { role: "system", content: "Ти лагідний емоційний підтримуючий помічник на ім’я Тихий Друг." },
+        { role: "user", content: message }
+      ],
     }),
   });
 
   const data = await response.json();
 
-  if (data.choices && data.choices.length > 0) {
+  if (data.choices?.length > 0) {
     res.status(200).json({ response: data.choices[0].message.content });
   } else {
-    res.status(500).json({ error: "Помилка отримання відповіді GPT." });
+    res.status(500).json({ error: "GPT не відповів. Спробуй ще раз." });
   }
 }
